@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)ig)f*scpe#zx0)w89yqi@9ac^l403w67o@uoksk-l4!3m^%ev'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -69,19 +69,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Love.wsgi.application'
-# Customize
-import socket
-import sys
 
-# Get the hostname of the current machine
-LOCAL_HOSTNAME = socket.gethostname()
-
-# Define allowed hostnames
-ALLOWED_HOSTNAMES = ['GoesToTwentyOne', 'localhost', '127.0.0.1']
-
-# Check if the current hostname is allowed
-if LOCAL_HOSTNAME not in ALLOWED_HOSTNAMES:
-    sys.exit("Unauthorized machine. Please contact hnihadgo75@gmail.com")
 
 
 # Database
