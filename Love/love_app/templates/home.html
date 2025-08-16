@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>I'm Sorry 💔</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(to top, #fff0f5, #ffe6e6);
+            overflow: hidden;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #home-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+        }
+
+        #home-text {
+            font-size: 90px;
+            color: #e60000;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: all 1s ease;
+            line-height: 1.2;
+        }
+
+        #sub-text {
+            font-size: 32px;
+            color: #cc0000;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease 0.5s;
+        }
+
+        .btn-custom {
+            font-size: 36px;
+            padding: 12px 25px;
+            margin: 0 15px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .emoji, .heart {
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .heart {
+            color: pink;
+            font-size: 25px;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <div id="home-container">
+        <h1 id="home-text">I regret my mistakes</h1>
+        <p id="sub-text">Will you forgive me? 🥺</p>
+        <div>
+            <a href="{% url 'love' %}" class="btn btn-danger btn-custom">Yes!</a>
+            <a href="{% url 'love' %}" class="btn btn-warning btn-custom">Of course, Yes!</a>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const container = document.getElementById('home-container');
+        const text = document.getElementById('home-text');
+        const subText = document.getElementById('sub-text');
+        const buttons = container.querySelectorAll('.btn-custom');
+
+        // Fade in text and subtext
+        window.addEventListener('DOMContentLoaded', () => {
+            text.style.opacity = '1';
+            text.style.transform = 'translateY(0)';
+            subText.style.opacity = '1';
+            subText.style.transform = 'translateY(0)';
+
+            // Button hover animations
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => btn.style.transform = 'scale(1.1)');
+                btn.addEventListener('mouseleave', () => btn.style.transform = 'scale(1)');
+            });
+        });
+
+        // Floating 🥺 emojis
+        function createEmoji() {
+            const emoji = document.createElement('div');
+            emoji.classList.add('emoji');
+            emoji.innerText = '🥺';
+            emoji.style.left = Math.random() * window.innerWidth + 'px';
+            emoji.style.fontSize = Math.random() * 40 + 20 + 'px';
+            emoji.style.opacity = Math.random();
+            container.appendChild(emoji);
+
+            setTimeout(() => {
+                emoji.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+                emoji.style.transition = 'transform 6s linear, opacity 6s linear';
+                emoji.style.opacity = 0;
+            }, 50);
+
+            setTimeout(() => emoji.remove(), 6000);
+        }
+
+        // Floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = '❤️';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.fontSize = Math.random() * 30 + 15 + 'px';
+            heart.style.opacity = Math.random();
+            container.appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+                heart.style.transition = 'transform 6s linear, opacity 6s linear';
+                heart.style.opacity = 0;
+            }, 50);
+
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        setInterval(createEmoji, 300);
+        setInterval(createHeart, 500);
+    </script>
+</body>
+</html>

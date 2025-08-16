@@ -1,0 +1,149 @@
+{% extends 'home.html' %}
+{% block content %}
+<div id="sorry-container">
+    <h1 id="sorry-text">I'm so sorry for everything.</h1>
+
+    <!-- Message Box -->
+    <div id="message-box">
+        <input type="text" id="user-message" placeholder="Write your message..." />
+        <button id="send-btn">Send</button>
+    </div>
+
+    <!-- Thank You Message -->
+    <p id="thank-message" style="display:none; color: green; font-size: 1.5rem; margin-top: 15px;">Thank you for your message! 💌</p>
+</div>
+
+<style>
+    #sorry-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+        padding: 20px;
+        background: linear-gradient(to top, #fff0f5, #ffe6e6);
+    }
+
+    #sorry-text {
+        font-size: clamp(2.5rem, 10vw, 8rem);
+        color: red;
+        margin-bottom: 30px;
+        z-index: 10;
+        position: relative;
+        line-height: 1.2;
+    }
+
+    .emoji {
+        position: absolute;
+        pointer-events: none;
+        user-select: none;
+    }
+
+    #message-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        z-index: 10;
+        position: relative;
+        flex-wrap: wrap;
+    }
+
+    #message-box input {
+        padding: 10px 15px;
+        border-radius: 25px;
+        border: 2px solid #e60000;
+        font-size: clamp(1rem, 3vw, 1.2rem);
+        width: 250px;
+        max-width: 80%;
+        outline: none;
+    }
+
+    #message-box button {
+        padding: 10px 20px;
+        border-radius: 25px;
+        border: none;
+        background-color: #e60000;
+        color: #fff;
+        font-size: clamp(1rem, 3vw, 1.2rem);
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    #message-box button:hover {
+        transform: scale(1.1);
+        background-color: #cc0000;
+    }
+
+    @media (max-width: 480px) {
+        #sorry-container {
+            padding: 10px;
+        }
+        #sorry-text {
+            font-size: clamp(2rem, 12vw, 6rem);
+        }
+        #message-box {
+            flex-direction: column;
+        }
+        #message-box input, #message-box button {
+            width: 80%;
+        }
+    }
+</style>
+
+<script>
+    const container = document.getElementById('sorry-container');
+
+    // Floating emoji animation
+    function createEmoji() {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.innerText = '🥺';
+
+        const minSize = 20;
+        const maxSize = 60;
+        const size = Math.random() * (maxSize - minSize) + minSize;
+        emoji.style.fontSize = `${size}px`;
+        emoji.style.left = `${Math.random() * window.innerWidth}px`;
+        emoji.style.top = '-50px';
+        emoji.style.opacity = Math.random();
+        emoji.style.transition = 'transform 5s linear, opacity 5s linear';
+        container.appendChild(emoji);
+
+        setTimeout(() => {
+            emoji.style.transform = `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`;
+            emoji.style.opacity = 0;
+        }, 50);
+
+        setTimeout(() => emoji.remove(), 5000);
+    }
+
+    setInterval(createEmoji, 300);
+
+    // Send message via email and show thank you
+    const sendBtn = document.getElementById('send-btn');
+    const userMessage = document.getElementById('user-message');
+    const thankMessage = document.getElementById('thank-message');
+
+    sendBtn.addEventListener('click', () => {
+        const message = encodeURIComponent(userMessage.value.trim());
+        if(message !== '') {
+            // Open email app / client
+            window.location.href = `mailto:hnihadgo75@gmail.com?subject=Message from Website&body=${message}`;
+
+            // Show thank you message
+            thankMessage.style.display = 'block';
+            
+            // Clear input field
+            userMessage.value = '';
+        } else {
+            alert('Please write a message before sending.');
+        }
+    });
+</script>
+{% endblock %}
